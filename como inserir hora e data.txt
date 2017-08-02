@@ -1,0 +1,4 @@
+ value="date('d/m/Y)"/>
+
+
+value=" date('H:i:s')"/>

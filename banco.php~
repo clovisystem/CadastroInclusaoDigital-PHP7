@@ -1,0 +1,13 @@
+<?php
+
+$conexao=@mysql_connect("localhost","root","");
+$selecao=@mysql_select_db("teste",$conexao);
+
+if(!$conexao){
+	echo"<script>alert('falha');</script>";
+}
+else{
+	echo"<script>alert('conectado');</script>";
+}
+
+?>

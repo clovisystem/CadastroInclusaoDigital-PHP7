@@ -1,0 +1,52 @@
+<html>
+<head>
+<title><?php echo $nome; ?></title>
+<link rel='stylesheet' type='text/css' href='estilo.css'/>
+</head>
+<body> 
+
+<?php
+
+include"banco.php";
+
+$nome=$_POST[nome];
+$telefone=$_POST[telefone];
+
+$incluir=@mysql_query("insert into tabela (nome,telefone,status) values ('$_POST[nome]','$_POST[telefone]','$_POST[status]');",$conexao);
+
+if($incluir){
+	echo"<script>alert('Seus dados foram incluídos com sucesso!'); 		</script>";
+	echo"<button type='button' name='voltar' id='voltar' 		style='width:60px;' onclick='history.go(-1);'>Voltar</button>";
+	echo"<br/><br/>";
+	echo"Usuário(a) inserido:";
+	$exibe=@mysql_query("SELECT * FROM tabela WHERE nome LIKE'%$nome%';",$conexao);
+	$num=@mysql_num_rows($exibe);
+	$assoc=@mysql_fetch_array($exibe);
+	echo"Nome:&nbsp;&nbsp;<input type='text/html' name='nome' id='nome' value='".$assoc[nome]."' style='border:none;width:100px;'/>";
+	echo"Telefone:&nbsp;&nbsp;<input type='text/html' name='telefone' id='telefone' value='".$assoc[telefone]."' style='border:none;width:100px;'/>";
+	echo"Telefone:&nbsp;&nbsp;<input type='text/html' name='status' id='status' value='".$assoc[status]."' style='border:none;width:80px;'/>";
+	echo"<br/><br/><br/><br/><br/>";
+	$mostra=@mysql_query("SELECT * FROM tabela ORDER BY nome;",$conexao);
+	$linhas=@mysql_num_rows($mostra);
+	$j=0;
+	for($j==0;$j<$linhas;$j++){	
+	echo"Nome:&nbsp;&nbsp;<input type='text/html' name='nome' id='nome' value='".@mysql_result($mostra,$j,nome);
+	echo"' style='border:none;width:100px;height:35px;'/>";
+	echo"Telefone:&nbsp;&nbsp;<input type='text/html' name='telefone' id='telefone' value='".@mysql_result($mostra,$j,telefone);
+	echo"' style='border:none;width:100px;height:35px;'/>";
+	echo"Estado civil:&nbsp;&nbsp;<input type='text/html' name='status' id='status' value='".@mysql_result($mostra,$j,status);
+	echo"' style='border:none;width:100px;height:35px;'/>";
+	echo"&nbsp;&nbsp;&nbsp;&nbsp;<a href='altera.php?nome=$nome'><button type='button' name='alterar' id='alterar' value='Alterar'>Alterar</button></a>";
+	echo"<br/>";
+	}
+	
+}
+else{
+	echo"<script>alert('Falha');</script>";
+	echo"<button type='button' name='voltar' id='voltar' 		style='width:60px;' onclick='history.go(-1);'>Voltar</button>";
+}
+
+?>
+
+</body>
+</html>
